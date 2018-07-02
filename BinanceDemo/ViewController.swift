@@ -7,12 +7,19 @@
 //
 
 import UIKit
-
+import SnapKit
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        let testView = JKView(numberOfItems: ["BNB","ETH","BTC","USD"])
+        view.addSubview(testView)
+        testView.snp.makeConstraints { (maker) in
+            maker.height.equalTo(44)
+            maker.leading.trailing.equalToSuperview()
+            maker.top.equalTo(topLayoutGuide.snp.bottom)
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
