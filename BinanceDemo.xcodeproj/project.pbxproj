@@ -16,6 +16,10 @@
 		174D590D20E9C30000568409 /* BinanceDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174D590C20E9C30000568409 /* BinanceDemoTests.swift */; };
 		174D591820E9C30000568409 /* BinanceDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174D591720E9C30000568409 /* BinanceDemoUITests.swift */; };
 		174D592620EA10B000568409 /* JKView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174D592520EA10B000568409 /* JKView.swift */; };
+		174D592B20EA2D7000568409 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174D592920EA2D7000568409 /* CollectionViewCell.swift */; };
+		174D592C20EA2D7000568409 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 174D592A20EA2D7000568409 /* CollectionViewCell.xib */; };
+		174D592F20EA2FBF00568409 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174D592D20EA2FBF00568409 /* ItemCell.swift */; };
+		174D593020EA2FBF00568409 /* ItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 174D592E20EA2FBF00568409 /* ItemCell.xib */; };
 		9447DCA44A8C37D6B1230583 /* Pods_BinanceDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FA8A819F5CF539AF49E9562 /* Pods_BinanceDemoUITests.framework */; };
 		AB46C67FAC73EE99B85E2E0E /* Pods_BinanceDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F354B287B74B47B4EB6934C /* Pods_BinanceDemoTests.framework */; };
 /* End PBXBuildFile section */
@@ -52,6 +56,10 @@
 		174D591720E9C30000568409 /* BinanceDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinanceDemoUITests.swift; sourceTree = "<group>"; };
 		174D591920E9C30000568409 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		174D592520EA10B000568409 /* JKView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JKView.swift; sourceTree = "<group>"; };
+		174D592920EA2D7000568409 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		174D592A20EA2D7000568409 /* CollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		174D592D20EA2FBF00568409 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
+		174D592E20EA2FBF00568409 /* ItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemCell.xib; sourceTree = "<group>"; };
 		3FA8A819F5CF539AF49E9562 /* Pods_BinanceDemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BinanceDemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6709786D606D06E8EB6FD71B /* Pods-BinanceDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BinanceDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BinanceDemo/Pods-BinanceDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		7F354B287B74B47B4EB6934C /* Pods_BinanceDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BinanceDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,6 +131,10 @@
 				174D590020E9C30000568409 /* LaunchScreen.storyboard */,
 				174D590320E9C30000568409 /* Info.plist */,
 				174D592520EA10B000568409 /* JKView.swift */,
+				174D592920EA2D7000568409 /* CollectionViewCell.swift */,
+				174D592A20EA2D7000568409 /* CollectionViewCell.xib */,
+				174D592D20EA2FBF00568409 /* ItemCell.swift */,
+				174D592E20EA2FBF00568409 /* ItemCell.xib */,
 			);
 			path = BinanceDemo;
 			sourceTree = "<group>";
@@ -278,6 +290,8 @@
 			files = (
 				174D590220E9C30000568409 /* LaunchScreen.storyboard in Resources */,
 				174D58FF20E9C30000568409 /* Assets.xcassets in Resources */,
+				174D593020EA2FBF00568409 /* ItemCell.xib in Resources */,
+				174D592C20EA2D7000568409 /* CollectionViewCell.xib in Resources */,
 				174D58FD20E9C2FF00568409 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -388,7 +402,9 @@
 			files = (
 				174D592620EA10B000568409 /* JKView.swift in Sources */,
 				174D58FA20E9C2FF00568409 /* ViewController.swift in Sources */,
+				174D592B20EA2D7000568409 /* CollectionViewCell.swift in Sources */,
 				174D58F820E9C2FF00568409 /* AppDelegate.swift in Sources */,
+				174D592F20EA2FBF00568409 /* ItemCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
