@@ -10,10 +10,18 @@ import XCTest
 @testable import BinanceDemo
 
 class BinanceDemoTests: XCTestCase {
-    
+    var datum:Datum!
+    var product:BIProduct!
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        let testBundle = Bundle(for: type(of: self))
+        let path = testBundle.path(forResource: "test", ofType: "json")
+       
+        let contents = try! String.init(contentsOfFile: path!, encoding: .utf8)
+        product = BIProduct(contents)
+
+        
     }
     
     override func tearDown() {
@@ -24,6 +32,8 @@ class BinanceDemoTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        XCTAssert(product.data[0].activeSell == 24879.06)
+        
     }
     
     func testPerformanceExample() {

@@ -7,7 +7,6 @@
 //
 
 import XCTest
-
 class BinanceDemoUITests: XCTestCase {
         
     override func setUp() {

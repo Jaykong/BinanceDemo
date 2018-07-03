@@ -10,7 +10,11 @@ import UIKit
 
 class BIItemCell: UITableViewCell {
 
-    @IBOutlet weak var titleLbl: UILabel!
+    @IBOutlet weak var nameLbl: UILabel!
+    @IBOutlet weak var convertedValue: UILabel!
+    
+    @IBOutlet weak var dollarValue: UILabel!
+    @IBOutlet weak var volumnLbl: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
