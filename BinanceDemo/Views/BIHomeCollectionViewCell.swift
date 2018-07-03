@@ -8,13 +8,13 @@
 
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {
+class BIHomeCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var tableView: UITableView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        let nib = UINib(nibName: "ItemCell", bundle: nil)
+        let nib = UINib(nibName: "BIItemCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "ItemCell")
     }
 

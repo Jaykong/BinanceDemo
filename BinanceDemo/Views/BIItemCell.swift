@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ItemCell: UITableViewCell {
+class BIItemCell: UITableViewCell {
 
     @IBOutlet weak var titleLbl: UILabel!
     override func awakeFromNib() {

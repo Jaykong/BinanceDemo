@@ -8,7 +8,7 @@
 
 import UIKit
 import SnapKit
-class ViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+class HomeViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     let collectionView:UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .horizontal
@@ -16,16 +16,19 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         collectionViewLayout.minimumInteritemSpacing = 0
         let cv = UICollectionView.init(frame: CGRect.zero, collectionViewLayout: collectionViewLayout)
         cv.isPagingEnabled = true
-        let nib = UINib(nibName: "CollectionViewCell", bundle: nil)
+        let nib = UINib(nibName: "BIHomeCollectionViewCell", bundle: nil)
         cv.register(nib, forCellWithReuseIdentifier: "CollectionViewCell")
        
         return cv
     }()
+    
+    let titleView = BITitleView(numberOfItems: ["BNB","ETH","BTC","USD"])
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let testView = JKView(numberOfItems: ["BNB","ETH","BTC","USD"])
-        view.addSubview(testView)
-        testView.snp.makeConstraints { (maker) in
+       
+        view.addSubview(titleView)
+        titleView.snp.makeConstraints { (maker) in
             maker.height.equalTo(44)
             maker.leading.trailing.equalToSuperview()
             maker.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -33,7 +36,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { (maker) in
-            maker.top.equalTo(testView.snp.bottom)
+            maker.top.equalTo(titleView.snp.bottom)
             maker.leading.trailing.equalToSuperview()
             maker.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
@@ -57,19 +60,23 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         return CGSize(width: view.bounds.size.width, height: view.bounds.size.height)
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! BIHomeCollectionViewCell
         cell.tableView.delegate = self
         cell.tableView.dataSource = self
     
         return cell
     }
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let index = Int(scrollView.contentOffset.x / self.view.bounds.size.width)
+        titleView.updateIndicator(index: index)
+    }
 }
-extension ViewController:UITableViewDataSource,UITableViewDelegate {
+extension HomeViewController:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell") as! ItemCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell") as! BIItemCell
         cell.titleLbl.text = "test"
         return cell
     }
