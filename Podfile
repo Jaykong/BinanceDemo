@@ -8,7 +8,7 @@ target 'BinanceDemo' do
   pod 'RxCocoa'
   pod 'RxDataSources'
   pod 'SnapKit'
-
+  pod 'SVProgressHUD'
   # Pods for BinanceDemo
 
   target 'BinanceDemoTests' do

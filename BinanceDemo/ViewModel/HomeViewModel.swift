@@ -15,13 +15,10 @@ struct HomeViewModel {
         self.product = product
     }
     
-    
- 
     lazy var titles: [String] = {
         return         [QuoteAsset.bnb.rawValue,QuoteAsset.btc.rawValue,QuoteAsset.eth.rawValue,QuoteAsset.usdt.rawValue]
 
     }()
-    
     
     func dataum(for asset:QuoteAsset) -> [ItemCellModel] {
         return self.product.data.filter { (datum) -> Bool in
@@ -30,7 +27,5 @@ struct HomeViewModel {
                 return ItemCellModel(datum: datum)
             })
     }
-    
-    
-
+ 
 }
