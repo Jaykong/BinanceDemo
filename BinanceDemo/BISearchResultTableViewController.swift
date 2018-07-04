@@ -16,10 +16,17 @@ class BISearchResultTableViewController: UIViewController {
     let tableView = UITableView()
     var searchBar: UISearchBar!
     let bag = DisposeBag()
-    var observableResults: Observable<[ItemCellModel]>!
+    var published = PublishSubject<[ItemCellModel]>()
+    var observableResults: Observable<[ItemCellModel]> = Observable.of([])
+    var observableResults2: Observable<[ItemCellModel]> = Observable.of([])
+
     override func didMove(toParentViewController parent: UIViewController?) {
 
-        observableResults = searchBar.rx.text.orEmpty
+        if parent == nil {
+            return
+        }
+        
+        observableResults2 = searchBar.rx.text.orEmpty
             .throttle(0.3, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .flatMapLatest { (query) -> Observable<[ItemCellModel]> in
@@ -27,7 +34,8 @@ class BISearchResultTableViewController: UIViewController {
                     return .just([])
                 }
                 let models = self.viewModel.product.data.filter({ (datum) -> Bool in
-                    datum.symbol.contains(query)
+                    
+                    datum.symbol.lowercased().contains(query.lowercased())
 //                    datum.quoteAsset.rawValue == query
                 }).map({ (datum) -> ItemCellModel in
                     ItemCellModel(datum: datum)
@@ -36,11 +44,9 @@ class BISearchResultTableViewController: UIViewController {
                 print(query)
                 return Observable.of(models)
             }
-        
-        observableResults.bind(to: tableView.rx.items(cellIdentifier: "ItemCell")) {
-            (_, item: ItemCellModel, cell: BIItemCell) in
-            cell.configure(with: item)
-            }.disposed(by: bag)
+        observableResults2.bind(to: published)
+        .disposed(by: bag)
+     
 
     }
 
@@ -58,6 +64,10 @@ class BISearchResultTableViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        published.asObservable().bind(to: tableView.rx.items(cellIdentifier: "ItemCell")) {
+            (_, item: ItemCellModel, cell: BIItemCell) in
+            cell.configure(with: item)
+            }.disposed(by: bag)
     }
 
     override func didReceiveMemoryWarning() {
