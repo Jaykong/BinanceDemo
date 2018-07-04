@@ -34,18 +34,17 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         titleView.snp.makeConstraints { maker in
             maker.height.equalTo(44)
             maker.leading.trailing.equalToSuperview()
-            maker.top.equalTo(topLayoutGuide.snp.bottom)
+            maker.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
         
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { maker in
             maker.top.equalTo(titleView.snp.bottom)
             maker.leading.trailing.equalToSuperview()
-            maker.bottom.equalTo(bottomLayoutGuide.snp.top)
+            maker.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         collectionView.delegate = self
         collectionView.dataSource = self
-//        collectionView.contentInset = UIEdgeInsetsMake(100, 0, 100, 0)
         cellModels = viewModel.dataum(for: .bnb)
     }
     
