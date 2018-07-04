@@ -19,6 +19,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         collectionViewLayout.minimumLineSpacing = 0
         collectionViewLayout.minimumInteritemSpacing = 0
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionViewLayout)
+        cv.bounces = false
         cv.isPagingEnabled = true
         let nib = UINib(nibName: "BIHomeCollectionViewCell", bundle: nil)
         cv.register(nib, forCellWithReuseIdentifier: "CollectionViewCell")
@@ -73,23 +74,24 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchBtnClicked))
     }
     
-    let refreshControl = UIRefreshControl()
     
-    @objc func refreshDataum() {
-        refreshControl.endRefreshing()
+    @objc func refreshDataum(rf:UIRefreshControl) {
+        rf.endRefreshing()
     }
-    
-    func addRefreshControl() {
+
+    func createRefreshControl() -> UIRefreshControl{
+        let refreshControl = UIRefreshControl()
+
         refreshControl.attributedTitle = NSAttributedString(string: "pull to refresh")
         refreshControl.addTarget(self, action: #selector(refreshDataum), for: .valueChanged)
-        refreshControl.tintColor = UIColor.white
-        collectionView.refreshControl = refreshControl
+        refreshControl.tintColor = UIColor.red
+//        collectionView.refreshControl = refreshControl
+        return refreshControl
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         cancelHandler()
-        addRefreshControl()
         title = "Markets"
         addSearchBtn()
         titleView = BITitleView(numberOfItems: viewModel.titles)
@@ -133,6 +135,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         cell.tableView.delegate = self
         cell.tableView.dataSource = self
         cell.tableView.estimatedRowHeight = 66
+        cell.tableView.refreshControl = self.createRefreshControl()
         return cell
     }
     
@@ -145,7 +148,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             cellModels = viewModel.dataum(for: asset!)
             let indexPath = IndexPath(item: index, section: 0)
             let cell = collectionView.cellForItem(at: indexPath) as? BIHomeCollectionViewCell
+//            cell?.tableView.refreshControl = refreshControl
+
             cell?.tableView.reloadData()
+            
         }
     }
 }
