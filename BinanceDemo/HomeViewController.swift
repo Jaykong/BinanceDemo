@@ -76,6 +76,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     
     @objc func refreshDataum(rf:UIRefreshControl) {
+        viewModel = HomeViewModel()
+        
         rf.endRefreshing()
     }
 
@@ -148,7 +150,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             cellModels = viewModel.dataum(for: asset!)
             let indexPath = IndexPath(item: index, section: 0)
             let cell = collectionView.cellForItem(at: indexPath) as? BIHomeCollectionViewCell
-//            cell?.tableView.refreshControl = refreshControl
 
             cell?.tableView.reloadData()
             

@@ -9,22 +9,14 @@
 import Foundation
 struct HomeViewModel {
     var product : BIProduct!
-    
+    //https://www.binance.com/exchange/public/product
     init() {
-        let path = Bundle.main.path(forResource: "test", ofType: "json")
-        do {
-            if let path = path {
-                let contents = try String(contentsOfFile: path)
-                if let product = BIProduct(contents) {
-                    self.product = product
-                }
-            }
-
-        } catch  {
-            print(error)
-        }
-        
+        let product = BIProduct(fromURL: "https://www.binance.com/exchange/public/product")
+        self.product = product
     }
+    
+    
+ 
     lazy var titles: [String] = {
         return         [QuoteAsset.bnb.rawValue,QuoteAsset.btc.rawValue,QuoteAsset.eth.rawValue,QuoteAsset.usdt.rawValue]
 
