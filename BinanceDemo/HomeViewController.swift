@@ -6,9 +6,13 @@
 //  Copyright © 2018 EF Education. All rights reserved.
 //
 
+import RxCocoa
+import RxSwift
 import SnapKit
 import UIKit
+
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    let disposeBag = DisposeBag()
     let collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .horizontal
@@ -26,8 +30,68 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var titleView: BITitleView!
     var cellModels: [ItemCellModel] = []
     
+    let searchBar: UISearchBar = {
+        let sb = UISearchBar()
+        sb.showsCancelButton = true
+        return sb
+    }()
+    
+    func cancelHandler() {
+        searchBar.rx.cancelButtonClicked.subscribe(onNext: {
+            self.addSearchBtn()
+            self.navigationItem.titleView = nil
+            self.navigationItem.title = "Markets"
+            self.removeChild()
+        }).disposed(by: disposeBag)
+    }
+    
+    let controller = BISearchResultTableViewController()
+    func removeChild() {
+        controller.willMove(toParentViewController: nil)
+        controller.view.removeFromSuperview()
+        controller.removeFromParentViewController()
+    }
+    
+    func addChild() {
+        view.addSubview(controller.view)
+        controller.view.frame = view.frame
+        controller.searchBar = searchBar
+        addChildViewController(controller)
+        controller.didMove(toParentViewController: self)
+    }
+    
+    @objc func searchBtnClicked() {
+        navigationItem.rightBarButtonItem = nil
+        navigationItem.titleView = searchBar
+        searchBar.becomeFirstResponder()
+        collectionView.alpha = 0.5
+//        self.navigationController?.pushViewController(BISearchResultTableViewController(), animated: true)
+        addChild()
+    }
+    
+    func addSearchBtn() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchBtnClicked))
+    }
+    
+    let refreshControl = UIRefreshControl()
+    
+    @objc func refreshDataum() {
+        refreshControl.endRefreshing()
+    }
+    
+    func addRefreshControl() {
+        refreshControl.attributedTitle = NSAttributedString(string: "pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refreshDataum), for: .valueChanged)
+        refreshControl.tintColor = UIColor.white
+        collectionView.refreshControl = refreshControl
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        cancelHandler()
+        addRefreshControl()
+        title = "Markets"
+        addSearchBtn()
         titleView = BITitleView(numberOfItems: viewModel.titles)
         titleView.delegate = self
         view.addSubview(titleView)
@@ -64,7 +128,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return CGSize(width: view.bounds.size.width, height: collectionView.bounds.size.height)
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! BIHomeCollectionViewCell
         cell.tableView.delegate = self
@@ -73,7 +136,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return cell
     }
     
-
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if type(of: scrollView) == UICollectionView.self {
             let index = Int(scrollView.contentOffset.x / view.bounds.size.width)
@@ -115,13 +177,13 @@ extension HomeViewController: BITitleViewDelegate {
             
         case 1:
             collectionView.setContentOffset(CGPoint(x: width, y: y), animated: true)
-
+            
         case 2:
             collectionView.setContentOffset(CGPoint(x: 2 * width, y: y), animated: true)
-
+            
         case 3:
             collectionView.setContentOffset(CGPoint(x: 3 * width, y: y), animated: true)
-
+            
         default:
             break
         }
