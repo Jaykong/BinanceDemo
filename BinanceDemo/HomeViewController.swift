@@ -34,18 +34,18 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         titleView.snp.makeConstraints { maker in
             maker.height.equalTo(44)
             maker.leading.trailing.equalToSuperview()
-            maker.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            maker.top.equalTo(topLayoutGuide.snp.bottom)
         }
         
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { maker in
             maker.top.equalTo(titleView.snp.bottom)
             maker.leading.trailing.equalToSuperview()
-            maker.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            maker.bottom.equalTo(bottomLayoutGuide.snp.top)
         }
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.contentInset = UIEdgeInsetsMake(100, 0, 0, 0)
+//        collectionView.contentInset = UIEdgeInsetsMake(100, 0, 100, 0)
         cellModels = viewModel.dataum(for: .bnb)
     }
     
@@ -62,8 +62,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.bounds.size.width, height: view.bounds.size.height)
+        return CGSize(width: view.bounds.size.width, height: collectionView.bounds.size.height)
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! BIHomeCollectionViewCell
