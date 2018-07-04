@@ -30,31 +30,13 @@ struct HomeViewModel {
 
     }()
     
-    struct ItemCellModel {
-        let name:String
-        let dollarValue:String
-        let covertedValue:String
-        let volume:String
-        
-        init(datum:Datum) {
-            self.name = "\(datum.baseAsset)/\(datum.quoteAsset)"
-            let dollarValue = String.init(format: ".2f", datum.tradedMoney / 10)
-            self.dollarValue = dollarValue
-            self.covertedValue = datum.purpleOpen
-            let volumeInt = Int(datum.volume)
-            let numberFomat = NumberFormatter()
-            numberFomat.decimalSeparator = ","
-            
-            formatedVolume = numberFomat.string(from: NSNumber(value: volumeInt!))
-           
-            self.volume = datum.volume
-        }
-    }
     
-    func dataum(for asset:QuoteAsset) -> [Datum] {
+    func dataum(for asset:QuoteAsset) -> [ItemCellModel] {
         return self.product.data.filter { (datum) -> Bool in
             return datum.quoteAsset == asset
-        }
+            }.map({ (datum) -> ItemCellModel in
+                return ItemCellModel(datum: datum)
+            })
     }
     
     

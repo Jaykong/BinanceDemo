@@ -20,13 +20,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="370" height="93.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="eos/btc" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IoX-1C-tgA">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="eos/btc" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IoX-1C-tgA">
                         <rect key="frame" x="16" y="11" width="58" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="volumn" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="utW-wp-JI5">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="volumn" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="utW-wp-JI5">
                         <rect key="frame" x="16" y="62" width="56" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
@@ -34,6 +34,9 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0012933" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bix-nr-jAQ">
                         <rect key="frame" x="271" y="11" width="83" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="83" id="22S-Yc-8wH"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -51,6 +54,7 @@
                     <constraint firstAttribute="trailingMargin" secondItem="Bix-nr-jAQ" secondAttribute="trailing" id="eLy-Ly-NeP"/>
                     <constraint firstItem="IoX-1C-tgA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="gJv-oJ-57h"/>
                     <constraint firstItem="IoX-1C-tgA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="icl-IL-swZ"/>
+                    <constraint firstItem="utW-wp-JI5" firstAttribute="top" secondItem="IoX-1C-tgA" secondAttribute="bottom" constant="15" id="kLv-dr-Lb0"/>
                     <constraint firstItem="Bix-nr-jAQ" firstAttribute="top" secondItem="IoX-1C-tgA" secondAttribute="top" id="pU2-rh-7pG"/>
                     <constraint firstAttribute="bottomMargin" secondItem="utW-wp-JI5" secondAttribute="bottom" id="uck-BE-uXB"/>
                     <constraint firstItem="utW-wp-JI5" firstAttribute="leading" secondItem="IoX-1C-tgA" secondAttribute="leading" id="w4r-h7-NoY"/>

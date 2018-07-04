@@ -8,7 +8,12 @@
 
 import SnapKit
 import UIKit
+
+protocol BITitleViewDelegate {
+    func didSelectButton(at index:Int)
+}
 class BITitleView: UIView {
+    var delegate:BITitleViewDelegate?
     let scrollView = UIScrollView()
     let indicatorView: UIView = {
         let v = UIView()
@@ -19,13 +24,23 @@ class BITitleView: UIView {
     var btns: [UIButton] = []
     var stackView: UIStackView!
     
+    @objc func buttonPressed(target:UIButton) {
+        guard let dl = delegate else {
+            return
+        }
+        dl.didSelectButton(at: target.tag)
+    }
+    
     init(numberOfItems: [String]) {
         super.init(frame: CGRect.zero)
-        
+        var btnTag = 0
         btns = numberOfItems.map { (item) -> UIButton in
             let btn = UIButton(type: .custom)
+            btn.tag = btnTag
+            btnTag += 1
             btn.setTitle(item, for: .normal)
             btn.setTitleColor(UIColor.black, for: .normal)
+            btn.addTarget(self, action: #selector(buttonPressed(target:)), for: .touchUpInside)
             return btn
         }
         stackView = UIStackView(arrangedSubviews: btns)
