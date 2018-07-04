@@ -27,7 +27,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return cv
     }()
     
-    var viewModel = HomeViewModel()
+    var viewModel : HomeViewModel!
     var titleView: BITitleView!
     var cellModels: [ItemCellModel] = []
     
@@ -76,7 +76,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     
     @objc func refreshDataum(rf:UIRefreshControl) {
-        viewModel = HomeViewModel()
+//        viewModel = HomeViewModel()
         
         rf.endRefreshing()
     }
@@ -93,6 +93,17 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        self.view.addSubview(indicator)
+        indicator.snp.makeConstraints { (maker) in
+            maker.center.equalToSuperview()
+        }
+        indicator.startAnimating()
+        viewModel = HomeViewModel(success: {
+            indicator.stopAnimating()
+        })
+        
         cancelHandler()
         title = "Markets"
         addSearchBtn()

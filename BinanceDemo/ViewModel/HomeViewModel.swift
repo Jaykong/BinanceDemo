@@ -7,12 +7,23 @@
 //
 
 import Foundation
-struct HomeViewModel {
+import UIKit
+import SnapKit
+class HomeViewModel {
     var product : BIProduct!
     //https://www.binance.com/exchange/public/product
-    init() {
-        let product = BIProduct(fromURL: "https://www.binance.com/exchange/public/product")
-        self.product = product
+    init(success:@escaping ()->()) {
+       
+        DispatchQueue.global().sync {
+            let product = BIProduct(fromURL: "https://www.binance.com/exchange/public/product")
+            self.product = product
+            DispatchQueue.main.async {
+               success()
+            }
+        }
+        
+        
+        
     }
     
     lazy var titles: [String] = {

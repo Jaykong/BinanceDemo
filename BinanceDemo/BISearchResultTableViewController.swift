@@ -12,7 +12,7 @@ import SnapKit
 import UIKit
 
 class BISearchResultTableViewController: UIViewController {
-    let viewModel = HomeViewModel()
+    var viewModel :HomeViewModel!
     let tableView = UITableView()
     var searchBar: UISearchBar!
     let bag = DisposeBag()
@@ -64,6 +64,15 @@ class BISearchResultTableViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        self.view.addSubview(indicator)
+        indicator.snp.makeConstraints { (maker) in
+            maker.center.equalToSuperview()
+        }
+        indicator.startAnimating()
+        viewModel = HomeViewModel(success: {
+            indicator.stopAnimating()
+        })
         published.asObservable().bind(to: tableView.rx.items(cellIdentifier: "ItemCell")) {
             (_, item: ItemCellModel, cell: BIItemCell) in
             cell.configure(with: item)
