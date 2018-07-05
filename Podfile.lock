@@ -8,12 +8,14 @@ PODS:
     - RxSwift (~> 4.0)
   - RxSwift (4.1.2)
   - SnapKit (4.0.0)
+  - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - RxCocoa
   - RxDataSources
   - RxSwift
   - SnapKit
+  - SVProgressHUD
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -22,6 +24,7 @@ SPEC REPOS:
     - RxDataSources
     - RxSwift
     - SnapKit
+    - SVProgressHUD
 
 SPEC CHECKSUMS:
   Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
@@ -29,7 +32,8 @@ SPEC CHECKSUMS:
   RxDataSources: cb7c31e652a87ebb919da45f716bbb87b3765f6b
   RxSwift: e49536837d9901277638493ea537394d4b55f570
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 875d32119689ed34d972638b8f59ee5d241ab7cd
+PODFILE CHECKSUM: 17029b389c840242d0bdbf3506e7d33729264300
 
 COCOAPODS: 1.5.0

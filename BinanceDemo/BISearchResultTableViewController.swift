@@ -12,20 +12,18 @@ import SnapKit
 import UIKit
 
 class BISearchResultTableViewController: UIViewController {
-    var viewModel :HomeViewModel!
+    var viewModel: HomeViewModel!
     let tableView = UITableView()
     var searchBar: UISearchBar!
     let bag = DisposeBag()
     var published = PublishSubject<[ItemCellModel]>()
-    var observableResults: Observable<[ItemCellModel]> = Observable.of([])
     var observableResults2: Observable<[ItemCellModel]> = Observable.of([])
 
     override func didMove(toParentViewController parent: UIViewController?) {
-
         if parent == nil {
             return
         }
-        
+
         observableResults2 = searchBar.rx.text.orEmpty
             .throttle(0.3, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
@@ -34,20 +32,16 @@ class BISearchResultTableViewController: UIViewController {
                     return .just([])
                 }
                 let models = self.viewModel.product.data.filter({ (datum) -> Bool in
-                    
+
                     datum.symbol.lowercased().contains(query.lowercased())
-//                    datum.quoteAsset.rawValue == query
                 }).map({ (datum) -> ItemCellModel in
                     ItemCellModel(datum: datum)
                 })
-//                print(models)
                 print(query)
                 return Observable.of(models)
             }
         observableResults2.bind(to: published)
-        .disposed(by: bag)
-     
-
+            .disposed(by: bag)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -59,24 +53,16 @@ class BISearchResultTableViewController: UIViewController {
         tableView.snp.makeConstraints { maker in
             maker.edges.equalToSuperview()
         }
-
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        self.view.addSubview(indicator)
-        indicator.snp.makeConstraints { (maker) in
-            maker.center.equalToSuperview()
-        }
-        indicator.startAnimating()
         viewModel = HomeViewModel(success: {
-            indicator.stopAnimating()
+            self.published.asObservable().bind(to: self.tableView.rx.items(cellIdentifier: "ItemCell")) {
+                (_, item: ItemCellModel, cell: BIItemCell) in
+                cell.configure(with: item)
+            }.disposed(by: self.bag)
         })
-        published.asObservable().bind(to: tableView.rx.items(cellIdentifier: "ItemCell")) {
-            (_, item: ItemCellModel, cell: BIItemCell) in
-            cell.configure(with: item)
-            }.disposed(by: bag)
     }
 
     override func didReceiveMemoryWarning() {

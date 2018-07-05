@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 import UIKit
-
+import SVProgressHUD
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     let disposeBag = DisposeBag()
     let collectionView: UICollectionView = {
@@ -21,6 +21,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionViewLayout)
         cv.bounces = false
         cv.isPagingEnabled = true
+        cv.backgroundColor = UIColor.white
         let nib = UINib(nibName: "BIHomeCollectionViewCell", bundle: nil)
         cv.register(nib, forCellWithReuseIdentifier: "CollectionViewCell")
         
@@ -93,15 +94,15 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        self.view.addSubview(indicator)
-        indicator.snp.makeConstraints { (maker) in
-            maker.center.equalToSuperview()
-        }
-        indicator.startAnimating()
+        self.view.backgroundColor = UIColor.white
+       SVProgressHUD.show()
+      
         viewModel = HomeViewModel(success: {
-            indicator.stopAnimating()
+           SVProgressHUD.dismiss()
+            self.cellModels = self.viewModel.dataum(for: .bnb)
+            self.collectionView.delegate = self
+            self.collectionView.dataSource = self
+
         })
         
         cancelHandler()
@@ -122,9 +123,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             maker.leading.trailing.equalToSuperview()
             maker.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        cellModels = viewModel.dataum(for: .bnb)
+        
     }
     
     override func didReceiveMemoryWarning() {
