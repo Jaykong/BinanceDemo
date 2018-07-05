@@ -1,12 +1,6 @@
-//
-//  BIProduct.swift
-//  BinanceDemo
-//
-//  Created by JayKong on 2018/7/3.
-//  Copyright © 2018 EF Education. All rights reserved.
-//
 
 import Foundation
+
 struct BIProduct: Codable {
     let data: [Datum]
 }
@@ -77,6 +71,7 @@ enum QuoteAssetUnit: String, Codable {
 }
 
 enum Status: String, Codable {
+    case endOfDay = "END_OF_DAY"
     case trading = "TRADING"
 }
 
@@ -167,3 +162,4 @@ class JSONNull: Codable {
         try container.encodeNil()
     }
 }
+

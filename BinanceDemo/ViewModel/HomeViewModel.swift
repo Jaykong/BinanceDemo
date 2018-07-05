@@ -14,21 +14,17 @@ class HomeViewModel {
     // https://www.binance.com/exchange/public/product
     //https://714e2099-16a6-416e-b033-a8471973004d.mock.pstmn.io/product
 
-//    init(success: @escaping () -> ()) {
-//        DispatchQueue.global().async {
-//            let product = BIProduct(fromURL: "https://714e2099-16a6-416e-b033-a8471973004d.mock.pstmn.io/product")
-//            self.product = product
-//            DispatchQueue.main.async {
-//                success()
-//            }
-//        }
-//    }
-    
-    init() {
-        let product = BIProduct(fromURL: "https://714e2099-16a6-416e-b033-a8471973004d.mock.pstmn.io/product")
-        self.product = product
+    init(success: @escaping () -> ()) {
+        DispatchQueue.global().async {
+            let product = BIProduct(fromURL: "https://www.binance.com/exchange/public/product")
+            self.product = product
+            DispatchQueue.main.async {
+                success()
+            }
+        }
     }
-    
+
+
     lazy var titles: [String] = {
         [QuoteAsset.bnb.rawValue, QuoteAsset.btc.rawValue, QuoteAsset.eth.rawValue, QuoteAsset.usdt.rawValue]
         

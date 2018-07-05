@@ -48,10 +48,10 @@ class BISearchResultTableViewController: UIViewController {
             return
         }
 
-//        self.viewModel = HomeViewModel(success: {
-//            self.bindToPublished()
-//        })
-//
+        self.viewModel = HomeViewModel(success: {
+            self.bindToPublished()
+        })
+
         
     }
 
@@ -68,12 +68,12 @@ class BISearchResultTableViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        viewModel = HomeViewModel(success: {
-//            self.published.asObservable().bind(to: self.tableView.rx.items(cellIdentifier: "ItemCell")) {
-//                (_, item: ItemCellModel, cell: BIItemCell) in
-//                cell.configure(with: item)
-//            }.disposed(by: self.bag)
-//        })
+        viewModel = HomeViewModel(success: {
+            self.published.asObservable().bind(to: self.tableView.rx.items(cellIdentifier: "ItemCell")) {
+                (_, item: ItemCellModel, cell: BIItemCell) in
+                cell.configure(with: item)
+            }.disposed(by: self.bag)
+        })
     }
 
     override func didReceiveMemoryWarning() {

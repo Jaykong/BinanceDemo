@@ -77,9 +77,9 @@ class HomeViewController: UIViewController {
     }
     
     @objc func refreshDataum(rf: UIRefreshControl) {
-//        viewModel = HomeViewModel(success: {
-//            self.collectionView.reloadData()
-//        })
+        viewModel = HomeViewModel(success: {
+            self.collectionView.reloadData()
+        })
         
         rf.endRefreshing()
     }
@@ -120,19 +120,14 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        SVProgressHUD.show()
-        
-        viewModel = HomeViewModel()
-        self.cellModels = self.viewModel.dataum(for: .bnb)
-        self.collectionView.delegate = self
-        self.collectionView.dataSource = self
-//        viewModel = HomeViewModel(success: {
-//            SVProgressHUD.dismiss()
-//            self.cellModels = self.viewModel.dataum(for: .bnb)
-//            self.collectionView.delegate = self
-//            self.collectionView.dataSource = self
-//
-//        })
+        SVProgressHUD.show()
+        viewModel = HomeViewModel(success: {
+            SVProgressHUD.dismiss()
+            self.cellModels = self.viewModel.dataum(for: .bnb)
+            self.collectionView.delegate = self
+            self.collectionView.dataSource = self
+
+        })
         
         configureNavigation()
         
