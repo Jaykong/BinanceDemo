@@ -15,7 +15,7 @@ class BISearchResultTableViewController: UIViewController {
     var viewModel: HomeViewModel!
     let tableView:UITableView = {
         let tv = UITableView()
-        tv.backgroundColor = UIColor.black
+        
         return tv
     }()
 
@@ -41,7 +41,6 @@ class BISearchResultTableViewController: UIViewController {
                 }).map({ (datum) -> ItemCellModel in
                     ItemCellModel(datum: datum)
                 })
-                print(query)
                 return Observable.of(models)
             }
         observableResults2.bind(to: published)
@@ -71,11 +70,14 @@ class BISearchResultTableViewController: UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.backgroundView = nil
+        tableView.backgroundColor = UIColor.black
 //        view.backgroundColor = UIColor.red
         viewModel = HomeViewModel(success: {
             self.published.asObservable().bind(to: self.tableView.rx.items){
                  (tableView, row, element) in
                     let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell")!
+                    cell.backgroundColor = UIColor.black
                     cell.textLabel?.text = "\(element) @ row \(row)"
                 
                     return cell

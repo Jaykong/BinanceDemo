@@ -19,6 +19,7 @@ class BIItemCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         contentView.backgroundColor = UIColor.black
+        self.backgroundColor = UIColor.black
         nameLbl.textColor = UIColor.white
         convertedValue.textColor = UIColor.white
         volumnLbl.textColor = UIColor.nevada
