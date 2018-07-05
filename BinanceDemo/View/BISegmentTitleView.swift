@@ -12,6 +12,7 @@ import UIKit
 protocol BITitleViewDelegate {
     func didSelectButton(at index:Int)
 }
+
 class BISegmentTitleView: UIView {
     var delegate:BITitleViewDelegate?
     let scrollView = UIScrollView()
@@ -33,13 +34,14 @@ class BISegmentTitleView: UIView {
     
     init(numberOfItems: [String]) {
         super.init(frame: CGRect.zero)
+        backgroundColor = UIColor.black
         var btnTag = 0
         btns = numberOfItems.map { (item) -> UIButton in
             let btn = UIButton(type: .custom)
             btn.tag = btnTag
             btnTag += 1
             btn.setTitle(item, for: .normal)
-            btn.setTitleColor(UIColor.black, for: .normal)
+            btn.setTitleColor(UIColor.white, for: .normal)
             btn.addTarget(self, action: #selector(buttonPressed(target:)), for: .touchUpInside)
             return btn
         }
@@ -77,7 +79,6 @@ class BISegmentTitleView: UIView {
         indicatorView.snp.makeConstraints { maker in
             centerXConstrait = maker.centerX.equalTo(btns[index].snp.centerX).constraint
         }
-        updateConstraintsIfNeeded()
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -11,22 +11,19 @@ import RxSwift
 import SnapKit
 import SVProgressHUD
 import UIKit
+
+
 class HomeViewController: UIViewController {
-    //MARK: - Properties
+
+    // MARK: - Properties
+    
     let disposeBag = DisposeBag()
     
     let collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.scrollDirection = .horizontal
-        collectionViewLayout.minimumLineSpacing = 0
-        collectionViewLayout.minimumInteritemSpacing = 0
+        collectionViewLayout.setup()
         let cv = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionViewLayout)
-        cv.bounces = false
-        cv.isPagingEnabled = true
-        cv.backgroundColor = UIColor.white
-        let nib = UINib(nibName: "BIHomeCollectionViewCell", bundle: nil)
-        cv.register(nib, forCellWithReuseIdentifier: "CollectionViewCell")
-        
+        cv.setup()
         return cv
     }()
     
@@ -39,37 +36,26 @@ class HomeViewController: UIViewController {
         sb.showsCancelButton = true
         return sb
     }()
-    let controller = BISearchResultTableViewController()
-
-    //MARK: - Help Methods
+    
+    var controller:BISearchResultTableViewController!
+    
+    // MARK: - Help Methods
+    
     func cancelHandler() {
         searchBar.rx.cancelButtonClicked.subscribe(onNext: {
             self.addSearchBtn()
             self.navigationItem.titleView = nil
             self.navigationItem.title = "Markets"
-            self.removeChild()
+            self.removeChild(self.controller)
         }).disposed(by: disposeBag)
-    }
-    
-    func removeChild() {
-        controller.willMove(toParentViewController: nil)
-        controller.view.removeFromSuperview()
-        controller.removeFromParentViewController()
-    }
-    
-    func addChild() {
-        view.addSubview(controller.view)
-        controller.view.frame = view.frame
-        controller.searchBar = searchBar
-        addChildViewController(controller)
-        controller.didMove(toParentViewController: self)
     }
     
     @objc func searchBtnClicked() {
         navigationItem.rightBarButtonItem = nil
         navigationItem.titleView = searchBar
         searchBar.becomeFirstResponder()
-        addChild()
+        addChild(controller)
+        controller.searchBar = searchBar
     }
     
     func addSearchBtn() {
@@ -94,6 +80,12 @@ class HomeViewController: UIViewController {
     
     fileprivate func configureNavigation() {
         title = "Markets"
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.nevada]
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.barTintColor = UIColor.black
+        navigationController?.navigationBar.isTranslucent = false
+        setStatusBarBackgroundColor(color: UIColor.black)
+
         addSearchBtn()
         cancelHandler()
     }
@@ -118,15 +110,24 @@ class HomeViewController: UIViewController {
         }
     }
     
+    func setStatusBarBackgroundColor(color: UIColor) {
+        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
+        statusBar.backgroundColor = color
+    }
+    
+    // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        let sb = UIStoryboard(name: "BISearchResult", bundle: nil)
+        controller = sb.instantiateInitialViewController() as! BISearchResultTableViewController
         SVProgressHUD.show()
         viewModel = HomeViewModel(success: {
             SVProgressHUD.dismiss()
             self.cellModels = self.viewModel.dataum(for: .bnb)
             self.collectionView.delegate = self
             self.collectionView.dataSource = self
-
+            
         })
         
         configureNavigation()
@@ -141,7 +142,9 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 }
-//MARK: - Collection View Delegate & DataSource
+
+// MARK: - Collection View Delegate & DataSource
+
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.titles.count

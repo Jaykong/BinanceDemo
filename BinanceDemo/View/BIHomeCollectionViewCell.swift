@@ -11,9 +11,13 @@ import UIKit
 class BIHomeCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var tableView: UITableView!
+    func configureTableView() {
+        tableView.backgroundColor = UIColor.black
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        configureTableView()
         let nib = UINib(nibName: "BIItemCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "ItemCell")
     }

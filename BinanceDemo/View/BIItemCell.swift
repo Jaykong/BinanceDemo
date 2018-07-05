@@ -18,6 +18,12 @@ class BIItemCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        contentView.backgroundColor = UIColor.black
+        nameLbl.textColor = UIColor.white
+        convertedValue.textColor = UIColor.white
+        volumnLbl.textColor = UIColor.nevada
+        dollarValue.textColor = UIColor.nevada
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

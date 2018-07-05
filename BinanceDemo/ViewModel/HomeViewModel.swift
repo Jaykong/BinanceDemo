@@ -11,8 +11,6 @@ import SnapKit
 import UIKit
 class HomeViewModel {
     var product: BIProduct?
-    // https://www.binance.com/exchange/public/product
-    //https://714e2099-16a6-416e-b033-a8471973004d.mock.pstmn.io/product
 
     init(success: @escaping () -> ()) {
         DispatchQueue.global().async {
@@ -23,7 +21,6 @@ class HomeViewModel {
             }
         }
     }
-
 
     lazy var titles: [String] = {
         [QuoteAsset.bnb.rawValue, QuoteAsset.btc.rawValue, QuoteAsset.eth.rawValue, QuoteAsset.usdt.rawValue]

@@ -7,29 +7,15 @@
 //
 
 import Foundation
-extension NSNumber {
-    func dollarValue() -> String? {
-        let formatter = NumberFormatter()
-        formatter.locale = NSLocale.current
-        // or
-        // f.locale = NSLocale(localeIdentifier: "it_IT")
-        formatter.numberStyle = .currency
-        let formattedAmountSting = formatter.string(from: self)
-        return formattedAmountSting
-        
-    }
-}
 
 struct ItemCellModel {
-    let name:String
-    let dollarValue:String
-    let covertedValue:String
-    let volume:String
+    let name: String
+    let dollarValue: String
+    let covertedValue: String
+    let volume: String
     
-    
-    init(datum:Datum) {
-        self.name = "\(datum.baseAsset)/\(datum.quoteAsset)"
-        
+    init(datum: Datum) {
+        self.name = "\(datum.baseAsset)/\(datum.quoteAsset.rawValue)"
         
         let dollarValue = String(format: "%.2f", datum.tradedMoney / 10)
         
