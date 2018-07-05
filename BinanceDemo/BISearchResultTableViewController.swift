@@ -72,21 +72,12 @@ class BISearchResultTableViewController: UIViewController {
         super.viewDidLoad()
         tableView.backgroundView = nil
         tableView.backgroundColor = UIColor.black
-//        view.backgroundColor = UIColor.red
+        
         viewModel = HomeViewModel(success: {
-            self.published.asObservable().bind(to: self.tableView.rx.items){
-                 (tableView, row, element) in
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell")!
-                    cell.backgroundColor = UIColor.black
-                    cell.textLabel?.text = "\(element) @ row \(row)"
-                
-                    return cell
-            }
-            
-//            self.published.asObservable().bind(to: self.tableView.rx.items(cellIdentifier: "ItemCell")) {
-//                (_, item: ItemCellModel, cell: BIItemCell) in
-//                cell.configure(with: item)
-//            }.disposed(by: self.bag)
+            self.published.asObservable().bind(to: self.tableView.rx.items(cellIdentifier: "ItemCell")) {
+                (_, item: ItemCellModel, cell: BIItemCell) in
+                cell.configure(with: item)
+            }.disposed(by: self.bag)
         })
         
     }
