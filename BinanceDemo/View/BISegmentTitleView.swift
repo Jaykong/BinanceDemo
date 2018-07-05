@@ -12,7 +12,7 @@ import UIKit
 protocol BITitleViewDelegate {
     func didSelectButton(at index:Int)
 }
-class BITitleView: UIView {
+class BISegmentTitleView: UIView {
     var delegate:BITitleViewDelegate?
     let scrollView = UIScrollView()
     let indicatorView: UIView = {
