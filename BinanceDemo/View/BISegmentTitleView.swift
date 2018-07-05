@@ -21,7 +21,7 @@ class BISegmentTitleView: UIView {
         v.backgroundColor = UIColor.red
         return v
     }()
-    
+    var seletedIndex:Int = 0
     var btns: [UIButton] = []
     var stackView: UIStackView!
     
@@ -30,6 +30,7 @@ class BISegmentTitleView: UIView {
             return
         }
         dl.didSelectButton(at: target.tag)
+        seletedIndex = target.tag
     }
     
     init(numberOfItems: [String]) {

@@ -62,21 +62,7 @@ class HomeViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchBtnClicked))
     }
     
-    @objc func refreshDataum(rf: UIRefreshControl) {
-        viewModel = HomeViewModel(success: {
-            self.collectionView.reloadData()
-        })
-        
-        rf.endRefreshing()
-    }
-    
-    func createRefreshControl() -> UIRefreshControl {
-        let refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "pull to refresh")
-        refreshControl.addTarget(self, action: #selector(refreshDataum), for: .valueChanged)
-        refreshControl.tintColor = UIColor.red
-        return refreshControl
-    }
+  
     
     fileprivate func configureNavigation() {
         title = "Markets"
@@ -113,6 +99,22 @@ class HomeViewController: UIViewController {
     func setStatusBarBackgroundColor(color: UIColor) {
         guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
         statusBar.backgroundColor = color
+    }
+    //MARK: - Refresh
+    @objc func refreshDataum(rf: UIRefreshControl) {
+        viewModel = HomeViewModel(success: {
+            self.reloadTableView(at: self.segmenttitleView.seletedIndex)
+        })
+        
+        rf.endRefreshing()
+    }
+    
+    func createRefreshControl() -> UIRefreshControl {
+        let refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refreshDataum), for: .valueChanged)
+        refreshControl.tintColor = UIColor.red
+        return refreshControl
     }
     
     // MARK: - View Life Cycle
@@ -169,17 +171,20 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - Scroll view delegate
 
 extension HomeViewController {
+    func reloadTableView(at index:Int) {
+        let title = viewModel.titles[index]
+        let asset = QuoteAsset(rawValue: title)
+        cellModels = viewModel.dataum(for: asset!)
+        let indexPath = IndexPath(item: index, section: 0)
+        let cell = collectionView.cellForItem(at: indexPath) as? BIHomeCollectionViewCell
+        
+        cell?.tableView.reloadData()
+    }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if type(of: scrollView) == UICollectionView.self {
             let index = Int(scrollView.contentOffset.x / view.bounds.size.width)
             segmenttitleView.updateIndicator(index: index)
-            let title = viewModel.titles[index]
-            let asset = QuoteAsset(rawValue: title)
-            cellModels = viewModel.dataum(for: asset!)
-            let indexPath = IndexPath(item: index, section: 0)
-            let cell = collectionView.cellForItem(at: indexPath) as? BIHomeCollectionViewCell
-            
-            cell?.tableView.reloadData()
+           reloadTableView(at: index)
         }
     }
 }
