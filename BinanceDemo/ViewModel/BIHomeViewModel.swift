@@ -9,7 +9,7 @@
 import Foundation
 import SnapKit
 import UIKit
-class HomeViewModel {
+class BIHomeViewModel {
     var product: BIProduct?
 
     init(success: @escaping () -> ()) {
@@ -27,14 +27,14 @@ class HomeViewModel {
         
     }()
     
-    func dataum(for asset: QuoteAsset) -> [ItemCellModel] {
+    func dataum(for asset: QuoteAsset) -> [BIItemCellModel] {
         guard let product = self.product else {
             return []
         }
         return product.data.filter { (datum) -> Bool in
             datum.quoteAsset == asset
-        }.map({ (datum) -> ItemCellModel in
-            ItemCellModel(datum: datum)
+        }.map({ (datum) -> BIItemCellModel in
+            BIItemCellModel(datum: datum)
         })
     }
 }

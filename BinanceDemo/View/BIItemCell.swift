@@ -32,7 +32,7 @@ class BIItemCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    func configure(with model:ItemCellModel) {
+    func configure(with model:BIItemCellModel) {
         self.nameLbl.text = model.name
         self.convertedValue.text = model.covertedValue
         self.dollarValue.text = model.dollarValue

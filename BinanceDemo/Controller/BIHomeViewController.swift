@@ -12,7 +12,7 @@ import SnapKit
 import SVProgressHUD
 import UIKit
 
-class HomeViewController: UIViewController {
+class BIHomeViewController: UIViewController {
 
     // MARK: - Properties
     
@@ -26,9 +26,9 @@ class HomeViewController: UIViewController {
         return cv
     }()
     
-    var viewModel: HomeViewModel!
+    var viewModel: BIHomeViewModel!
     var segmenttitleView: BISegmentTitleView!
-    var cellModels: [ItemCellModel] = []
+    var cellModels: [BIItemCellModel] = []
     
     let searchBar: UISearchBar = {
         let sb = UISearchBar()
@@ -101,7 +101,7 @@ class HomeViewController: UIViewController {
     // MARK: - Refresh
     
     @objc func refreshDataum(rf: UIRefreshControl) {
-        viewModel = HomeViewModel(success: {
+        viewModel = BIHomeViewModel(success: {
             self.reloadTableView(at: self.segmenttitleView.seletedIndex)
         })
         
@@ -123,7 +123,7 @@ class HomeViewController: UIViewController {
         let sb = UIStoryboard(name: "BISearchResult", bundle: nil)
         controller = sb.instantiateInitialViewController() as! BISearchResultTableViewController
         SVProgressHUD.show()
-        viewModel = HomeViewModel(success: {
+        viewModel = BIHomeViewModel(success: {
             SVProgressHUD.dismiss()
             self.cellModels = self.viewModel.dataum(for: .bnb)
             self.collectionView.delegate = self
@@ -146,7 +146,7 @@ class HomeViewController: UIViewController {
 
 // MARK: - Collection View Delegate & DataSource
 
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension BIHomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.titles.count
     }
@@ -161,7 +161,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 }
 
-extension HomeViewController: UICollectionViewDelegateFlowLayout {
+extension BIHomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.bounds.size.width, height: collectionView.bounds.size.height)
     }
@@ -169,7 +169,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - Scroll view delegate
 
-extension HomeViewController {
+extension BIHomeViewController {
     func reloadTableView(at index: Int) {
         let title = viewModel.titles[index]
         let asset = QuoteAsset(rawValue: title)
@@ -191,7 +191,7 @@ extension HomeViewController {
 
 // MARK: - UITable ViewData Source & Delegate
 
-extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
+extension BIHomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cellModels.count
     }
@@ -209,7 +209,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 
 // MARK: - Title View Delegate
 
-extension HomeViewController: BITitleViewDelegate {
+extension BIHomeViewController: BITitleViewDelegate {
     func didSelectButton(at index: Int) {
         let width = view.bounds.size.width
         

@@ -12,7 +12,7 @@ import SnapKit
 import UIKit
 
 class BISearchResultTableViewController: UIViewController {
-    var viewModel: HomeViewModel!
+    var viewModel: BIHomeViewModel!
     let tableView:UITableView = {
         let tv = UITableView()
         
@@ -21,8 +21,8 @@ class BISearchResultTableViewController: UIViewController {
 
     var searchBar: UISearchBar!
     let bag = DisposeBag()
-    var published = PublishSubject<[ItemCellModel]>()
-    var observableResults: Observable<[ItemCellModel]> = Observable.of([])
+    var published = PublishSubject<[BIItemCellModel]>()
+    var observableResults: Observable<[BIItemCellModel]> = Observable.of([])
 
     func bindToPublished() {
         guard let product = self.viewModel.product else {
@@ -31,15 +31,15 @@ class BISearchResultTableViewController: UIViewController {
         observableResults = searchBar.rx.text.orEmpty
             .throttle(0.3, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
-            .flatMapLatest { (query) -> Observable<[ItemCellModel]> in
+            .flatMapLatest { (query) -> Observable<[BIItemCellModel]> in
                 if query.isEmpty {
                     return .just([])
                 }
                 let models = product.data.filter({ (datum) -> Bool in
 
                     datum.symbol.lowercased().contains(query.lowercased())
-                }).map({ (datum) -> ItemCellModel in
-                    ItemCellModel(datum: datum)
+                }).map({ (datum) -> BIItemCellModel in
+                    BIItemCellModel(datum: datum)
                 })
                 return Observable.of(models)
             }
@@ -52,7 +52,7 @@ class BISearchResultTableViewController: UIViewController {
             return
         }
 
-        viewModel = HomeViewModel(success: {
+        viewModel = BIHomeViewModel(success: {
             self.bindToPublished()
         })
     }
@@ -73,9 +73,9 @@ class BISearchResultTableViewController: UIViewController {
         tableView.backgroundView = nil
         tableView.backgroundColor = UIColor.black
         
-        viewModel = HomeViewModel(success: {
+        viewModel = BIHomeViewModel(success: {
             self.published.asObservable().bind(to: self.tableView.rx.items(cellIdentifier: "ItemCell")) {
-                (_, item: ItemCellModel, cell: BIItemCell) in
+                (_, item: BIItemCellModel, cell: BIItemCell) in
                 cell.configure(with: item)
             }.disposed(by: self.bag)
         })

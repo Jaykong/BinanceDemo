@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ItemCellModel {
+struct BIItemCellModel {
     let name: String
     let dollarValue: String
     let covertedValue: String
