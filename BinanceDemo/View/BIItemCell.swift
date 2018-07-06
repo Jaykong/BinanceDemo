@@ -24,6 +24,8 @@ class BIItemCell: UITableViewCell {
         convertedValue.textColor = UIColor.white
         volumnLbl.textColor = UIColor.nevada
         dollarValue.textColor = UIColor.nevada
+        volumnLbl.font = UIFont.systemFont(ofSize: 12)
+        dollarValue.font = UIFont.systemFont(ofSize: 12)
         
     }
 
@@ -33,7 +35,7 @@ class BIItemCell: UITableViewCell {
         // Configure the view for the selected state
     }
     func configure(with model:BIItemCellModel) {
-        self.nameLbl.text = model.name
+        self.nameLbl.attributedText = model.name
         self.convertedValue.text = model.covertedValue
         self.dollarValue.text = model.dollarValue
         self.volumnLbl.text = model.volume

@@ -7,15 +7,23 @@
 //
 
 import Foundation
-
+import UIKit
 struct BIItemCellModel {
-    let name: String
+    let name: NSAttributedString
     let dollarValue: String
     let covertedValue: String
     let volume: String
     
     init(datum: Datum) {
-        self.name = "\(datum.baseAsset)/\(datum.quoteAsset.rawValue)"
+        let quoteAsset = "/\(datum.quoteAsset.rawValue)"
+        let quote = "\(datum.baseAsset)\(quoteAsset)" as NSString
+        
+        let attri = NSMutableAttributedString(string: quote as String)
+        let assetRange = quote.range(of: quoteAsset)
+        attri.addAttribute(.foregroundColor, value: UIColor.nevada, range:assetRange )
+        attri.addAttribute(.font, value: UIFont.systemFont(ofSize: 12), range: assetRange)
+        
+        self.name = attri
         
         let dollarValue = String(format: "%.2f", datum.tradedMoney / 10)
         
