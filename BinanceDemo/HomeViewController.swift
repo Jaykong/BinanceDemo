@@ -12,7 +12,6 @@ import SnapKit
 import SVProgressHUD
 import UIKit
 
-
 class HomeViewController: UIViewController {
 
     // MARK: - Properties
@@ -37,7 +36,7 @@ class HomeViewController: UIViewController {
         return sb
     }()
     
-    var controller:BISearchResultTableViewController!
+    var controller: BISearchResultTableViewController!
     
     // MARK: - Help Methods
     
@@ -62,8 +61,6 @@ class HomeViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchBtnClicked))
     }
     
-  
-    
     fileprivate func configureNavigation() {
         title = "Markets"
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.nevada]
@@ -71,7 +68,7 @@ class HomeViewController: UIViewController {
         navigationController?.navigationBar.barTintColor = UIColor.black
         navigationController?.navigationBar.isTranslucent = false
         setStatusBarBackgroundColor(color: UIColor.black)
-
+        
         addSearchBtn()
         cancelHandler()
     }
@@ -100,7 +97,9 @@ class HomeViewController: UIViewController {
         guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
         statusBar.backgroundColor = color
     }
-    //MARK: - Refresh
+    
+    // MARK: - Refresh
+    
     @objc func refreshDataum(rf: UIRefreshControl) {
         viewModel = HomeViewModel(success: {
             self.reloadTableView(at: self.segmenttitleView.seletedIndex)
@@ -171,20 +170,21 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - Scroll view delegate
 
 extension HomeViewController {
-    func reloadTableView(at index:Int) {
+    func reloadTableView(at index: Int) {
         let title = viewModel.titles[index]
         let asset = QuoteAsset(rawValue: title)
         cellModels = viewModel.dataum(for: asset!)
         let indexPath = IndexPath(item: index, section: 0)
         let cell = collectionView.cellForItem(at: indexPath) as? BIHomeCollectionViewCell
-        
+        segmenttitleView.seletedIndex = index
         cell?.tableView.reloadData()
     }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if type(of: scrollView) == UICollectionView.self {
             let index = Int(scrollView.contentOffset.x / view.bounds.size.width)
             segmenttitleView.updateIndicator(index: index)
-           reloadTableView(at: index)
+            reloadTableView(at: index)
         }
     }
 }

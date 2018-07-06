@@ -10,22 +10,34 @@ import SnapKit
 import UIKit
 
 protocol BITitleViewDelegate {
-    func didSelectButton(at index:Int)
+    func didSelectButton(at index: Int)
 }
 
 class BISegmentTitleView: UIView {
-    var delegate:BITitleViewDelegate?
+    var delegate: BITitleViewDelegate?
     let scrollView = UIScrollView()
     let indicatorView: UIView = {
         let v = UIView()
-        v.backgroundColor = UIColor.red
+        v.backgroundColor = UIColor.creamCan
         return v
     }()
-    var seletedIndex:Int = 0
+    
+    var seletedIndex: Int = 0 {
+        didSet {
+            btns.forEach { btn in
+                if btn.tag == seletedIndex {
+                    btn.setTitleColor(UIColor.creamCan, for: .normal)
+                } else {
+                    btn.setTitleColor(UIColor.white, for: .normal)
+                }
+            }
+        }
+    }
+    
     var btns: [UIButton] = []
     var stackView: UIStackView!
     
-    @objc func buttonPressed(target:UIButton) {
+    @objc func buttonPressed(target: UIButton) {
         guard let dl = delegate else {
             return
         }
@@ -40,9 +52,14 @@ class BISegmentTitleView: UIView {
         btns = numberOfItems.map { (item) -> UIButton in
             let btn = UIButton(type: .custom)
             btn.tag = btnTag
+            if btnTag == 0 {
+                btn.setTitleColor(UIColor.creamCan, for: .normal)
+            } else {
+                btn.setTitleColor(UIColor.white, for: .normal)
+            }
             btnTag += 1
             btn.setTitle(item, for: .normal)
-            btn.setTitleColor(UIColor.white, for: .normal)
+           
             btn.addTarget(self, action: #selector(buttonPressed(target:)), for: .touchUpInside)
             return btn
         }
@@ -69,7 +86,7 @@ class BISegmentTitleView: UIView {
         indicatorView.snp.makeConstraints { maker in
             maker.top.equalTo(stackView.snp.bottom)
             maker.height.equalTo(2)
-            maker.width.equalTo(50)
+            maker.width.equalTo(40)
             centerXConstrait = maker.centerX.equalTo(btns[0].snp.centerX).constraint
         }
     }

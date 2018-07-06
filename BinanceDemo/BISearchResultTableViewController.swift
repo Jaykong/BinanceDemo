@@ -22,13 +22,13 @@ class BISearchResultTableViewController: UIViewController {
     var searchBar: UISearchBar!
     let bag = DisposeBag()
     var published = PublishSubject<[ItemCellModel]>()
-    var observableResults2: Observable<[ItemCellModel]> = Observable.of([])
+    var observableResults: Observable<[ItemCellModel]> = Observable.of([])
 
     func bindToPublished() {
         guard let product = self.viewModel.product else {
             return
         }
-        observableResults2 = searchBar.rx.text.orEmpty
+        observableResults = searchBar.rx.text.orEmpty
             .throttle(0.3, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .flatMapLatest { (query) -> Observable<[ItemCellModel]> in
@@ -43,7 +43,7 @@ class BISearchResultTableViewController: UIViewController {
                 })
                 return Observable.of(models)
             }
-        observableResults2.bind(to: published)
+        observableResults.bind(to: published)
             .disposed(by: bag)
     }
 
